@@ -1,2 +1,1 @@
-slacker-asyncio
-websockets==3.2
+
