@@ -1,35 +1,28 @@
-# opsdroid connector websocket
+# opsdroid connector facebook
 
-A connector for [opsdroid](https://github.com/opsdroid/opsdroid) to listen for messages using websockets.
+A connector for [opsdroid](https://github.com/opsdroid/opsdroid) to interact with Facebook messenger.
 
 ## Usage
 
-This connector is for use when developing applications which will send messages to opsdroid. Messages are sent back and forth using websockets to allow two way realtime conversation.
+**This connector requires that the opsdroid web server is internet facing.**
 
-To connect to the websocket connector you must first request a room and then connect to it via websockets.
-
-#### `[POST] http://host:port/connector/websocket`
-Request a new websocket id. This method is used for rate limiting. If too many users are connected this message will return a `429` error code until some users disconnect or time out.
-
-Response
-```json
-{
-  "socket": "afbf858c-010d-11e7-abd2-d0a637e991d3"
-}
-```
-
-#### `[WEBSOCKET] http://host:port/connector/websocket/{socket}`
-The websocket end point to connect to. Messages are sent and received as text broadcasts in the socket.
+ - Create a Facbook page for your bot
+ - Visit https://developers.facebook.com
+ - Create a new app and add a messenger product
+ - Generate a `page-access-token` for the page you created
+ - Create a webhook pointing to `http(s)://your-bot-url.com:port/connector/facebook`
+ - Randomly generate a `verify-token` and add that to the webhook
 
 ## Configuration
 
 ```yaml
 connectors:
-  - name: websocket
+  - name: facebook
+    # required
+    verify-token: aabbccddee
+    page-access-token: aabbccddee112233445566
     # optional
     bot-name: "mybot" # default "opsdroid"
-    max-connections: 10 # default is 10 users can be connected at once
-    connection-timeout: 10 # default 10 seconds before requested socket times out
 ```
 
 ## License
