@@ -41,11 +41,14 @@ class ConnectorWebsocket(Connector):
             for entry in req_data["entry"]:
                 for fb_msg in entry["messaging"]:
                     _LOGGER.debug(fb_msg)
-                    message = Message(fb_msg["message"]["text"],
-                                      fb_msg["sender"]["id"],
-                                      fb_msg["sender"]["id"],
-                                      self)
-                    await self.opsdroid.parse(message)
+                    try:
+                        message = Message(fb_msg["message"]["text"],
+                                          fb_msg["sender"]["id"],
+                                          fb_msg["sender"]["id"],
+                                          self)
+                        await self.opsdroid.parse(message)
+                    except KeyError as error:
+                        _LOGGER.error(error)
 
         return aiohttp.web.Response(
                 text=json.dumps("Received"), status=201)
