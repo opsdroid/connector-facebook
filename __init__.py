@@ -16,8 +16,8 @@ class ConnectorWebsocket(Connector):
     def __init__(self, config):
         """ Setup the connector """
         _LOGGER.debug("Starting facebook connector")
-        self.name = "facebook"
         self.config = config
+        self.name = self.config.get("name", "facebook")
         self.opsdroid = None
         self.default_room = None
         self.bot_name = config.get("bot-name", 'opsdroid')
@@ -27,11 +27,11 @@ class ConnectorWebsocket(Connector):
         self.opsdroid = opsdroid
 
         self.opsdroid.web_server.web_app.router.add_post(
-            "/connector/facebook",
+            "/connector/{}".format(self.name),
             self.facebook_message_handler)
 
         self.opsdroid.web_server.web_app.router.add_get(
-            "/connector/facebook",
+            "/connector/{}".format(self.name),
             self.facebook_challenge_handler)
 
     async def facebook_message_handler(self, request):
