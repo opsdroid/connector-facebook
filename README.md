@@ -24,7 +24,3 @@ connectors:
     # optional
     bot-name: "mybot" # default "opsdroid"
 ```
-
-## License
-
-GNU General Public License Version 3 (GPLv3)
