@@ -66,7 +66,7 @@ class ConnectorWebsocket(Connector):
         """Listen for and parse new messages."""
         pass  # Listening is handled by the aiohttp web server
 
-    async def respond(self, message):
+    async def respond(self, message, room=None):
         """ Respond with a message """
         _LOGGER.debug("Responding to facebook")
         url = _FACEBOOK_SEND_URL.format(self.config.get('page-access-token'))
